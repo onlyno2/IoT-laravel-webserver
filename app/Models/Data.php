@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Data extends Model
 {
-  protected $fillable = ['temprature', 'humidity', 'device_id', 'time'];
+  protected $fillable = ['temperature', 'humidity', 'date'];
 }

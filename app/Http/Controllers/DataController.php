@@ -3,25 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Data;
+use Carbon\Carbon;
 use Exception;
-use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class DataController extends CustomController
 {
   public function index(Request $request)
   {
-    return $this->response('', Data::all(), 200);
+    return $this->response('', DB::table('data')->paginate(15), 200);
   }
 
   public function store(Request $request)
   {
-    $data = $request->only(['temprature', 'humidity', 'device_id', 'time']);
+    $resources = $request->input(['resources']);
+    $data = [];
+    foreach ($resources as $resource) {
+      // Log::info('resource', $resource);
+      if ($resource) {
+        $resource['payload']['date'] = Carbon::createFromTimeString($resource['payload']['date']);
+        array_push($data, $resource['payload']);
+      }
+    }
     try {
-      $data = Data::create($data);
+      if ($data)
+        Data::insert($data);
       return $this->response('', [], 201);
-    } catch(Exception $e) {
+    } catch (Exception $e) {
       Log::error('DataController error: ' . $e->getMessage());
       return $this->response($e->getMessage(), [], 500);
     }

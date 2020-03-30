@@ -15,10 +15,10 @@ class CreateDataTable extends Migration
     {
         Schema::create('data', function (Blueprint $table) {
             $table->id();
-            $table->float('temprature');
+            $table->float('temperature');
             $table->float('humidity');
-            $table->string('device_id');
-            $table->timestamp('time');
+            // $table->string('device_id'); chua can voi
+            $table->timestamp('date');
             $table->timestamps();
         });
     }
