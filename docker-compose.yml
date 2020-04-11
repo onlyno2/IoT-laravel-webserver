@@ -60,14 +60,3 @@ services:
       - ./production/nginx:/etc/nginx/conf.d
     networks:
       - app-network
-  
-  composer:
-    image: composer
-    restart: 'no'
-    command: install
-    volumes: 
-      - .:/app
-    networks: 
-      - app-network
-
-
