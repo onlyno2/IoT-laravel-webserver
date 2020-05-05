@@ -13,4 +13,10 @@ class CustomController extends Controller
       'data' => $data
     ], $status_code);
   }
+
+
+  public function unauthorized($credentials)
+  {
+    return auth('api')->attempt($credentials);
+  }
 }

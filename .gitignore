@@ -13,3 +13,4 @@ yarn-error.log
 public/js/chunk
 public/js/app.js
 public/js/main.js
+data/*

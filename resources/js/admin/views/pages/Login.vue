@@ -21,14 +21,20 @@
                   autocomplete="curent-password"
                   v-model="password"
                 >
-                  <template #prepend-content><CIcon name="cil-lock-locked"/></template>
+                  <template #prepend-content
+                    ><CIcon name="cil-lock-locked"
+                  /></template>
                 </CInput>
                 <CRow>
                   <CCol col="6" class="text-left">
-                    <CButton color="primary" class="px-4" @click="login">Login</CButton>
+                    <CButton color="primary" class="px-4" @click="login"
+                      >Login</CButton
+                    >
                   </CCol>
                   <CCol col="6" class="text-right">
-                    <CButton color="link" class="px-0">Forgot password?</CButton>
+                    <CButton color="link" class="px-0"
+                      >Forgot password?</CButton
+                    >
                   </CCol>
                 </CRow>
               </CForm>
@@ -42,17 +48,34 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
-      username: '',
-      password: ''
+      username: "",
+      password: ""
     };
   },
   methods: {
     login() {
       console.log(this.username, this.password);
+      axios
+        .post("/api/auth/login", {
+          name: this.username,
+          password: this.password
+        })
+        .then(response => {
+          console.log(response.data);
+          this.$cookies.set(
+            "Token",
+            "Bearer " + response.data.access_token,
+            response.data.expires_in
+          );
+          this.$router.push("/dashboard");
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
-  },
-}
+  }
+};
 </script>
