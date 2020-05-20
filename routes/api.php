@@ -14,9 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
+  Route::post('login', 'AuthController@login')->name('auth.login');
+  Route::post('logout', 'AuthController@logout')->name('auth.logout');
+});
 
-Route::get('/data', 'DataController@index');
-Route::post('/data', 'DataController@store');
+Route::group(['middleware' => 'api'], function () {
+  Route::get('devices/{deviceId}/data', 'DeviceClientController@data')->name('device.data');
+  Route::post('devices', 'DeviceClientController@store')->name('device.store');
+  Route::patch('devices/{deviceId}', 'DeviceClientController@update')->name('device.update');
+
+  Route::get('frames', 'FramesController@index')->name('frame.index');
+});
+
+Route::patch('devices/{deviceId}/status', 'DeviceClientController@trackDeviceStatus')->name('device.update');
+
+Route::get('clear_data', 'DataController@clearData')->name('data.clear');
+Route::post('store_data', 'DataController@storeData')->name('data.store');
+Route::get('get_data', 'DataController@getData')->name('data.get');
+Route::get('devices', 'DeviceClientController@index')->name('device.index');
+Route::get('test', 'DeviceClientController@test');

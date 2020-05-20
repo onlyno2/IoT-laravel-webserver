@@ -90,7 +90,18 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
-
+        
+        'mongodb' => [
+          'driver' => 'mongodb',
+          'host' => env('DB_HOST_MONGO', '127.0.0.1'),
+          'port' => env('DB_PORT_MONGO', 27017),
+          'database' => env('DB_DATABASE_MONGO', 'homestead'),
+          'username' => env('DB_USERNAME_MONGO', 'homestead'),
+          'password' => env('DB_PASSWORD_MONGO', 'secret'),
+          'options' => [
+              'database' => env('DB_AUTHENTICATION_DATABASE', 'admin'), // required with Mongo 3+
+          ],
+        ],
     ],
 
     /*
