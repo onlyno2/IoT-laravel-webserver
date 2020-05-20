@@ -31,7 +31,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-18.04
-    needs: [job1, job2]
+    needs: [build-php, build-js]
     steps:
       - uses: actions/checkout@v1
       - name: Push to vps
