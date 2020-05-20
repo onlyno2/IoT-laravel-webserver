@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import deviceStore from "./stores/deviceStore";
+import frameStore from "./stores/frameStore";
 
 Vue.use(Vuex);
 
@@ -25,7 +26,8 @@ const mutations = {
 
 export default new Vuex.Store({
   modules: {
-    deviceStore  
+    deviceStore,
+    frameStore
   },
   state,
   mutations

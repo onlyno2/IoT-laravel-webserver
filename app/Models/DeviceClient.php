@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Ramsey\Uuid\Uuid;
 
 class DeviceClient extends Model
 {
@@ -12,13 +11,20 @@ class DeviceClient extends Model
   protected $keyType = 'string';
   public $incrementing = false;
 
-  protected $fillable = ["id", "user_id", "status", "xaxis", "yaxis"];
+  protected $fillable = ["id", "status", "xaxis", "yaxis", "frame_id", "device_type_id"];
 
-  // protected static function boot()
-  // {
-  //     parent::boot();
-  //     static::creating(function (DeviceClient $model) {
-  //         $model->setAttribute($model->getKeyName(), Uuid::uuid4());
-  //     });
-  // }
+  public function type()
+  {
+    return $this->belongsTo(DeviceType::class, 'device_type_id', 'id');
+  }
+
+  public function commands()
+  {
+    return $this->type->commands;
+  }
+
+  public function frame()
+  {
+    return $this->belongsTo(Frame::class, 'frame_id', 'id');
+  }
 }

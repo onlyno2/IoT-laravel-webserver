@@ -71,6 +71,7 @@ export default {
     this.$mqtt.subscribe(`data/${this.deviceId}/sensorData`);
     this.$mqtt.on("message", (topic, message) => {
       const updateTopic = topic.split("/")[1];
+      console.log(message.toString);
       if (updateTopic === this.deviceId) {
         let currentTime = new Date();
         const data = JSON.parse(message.toString());
@@ -80,11 +81,11 @@ export default {
         );
         this.defaultDatasets[0].data.push(data.temperature);
         this.defaultDatasets[1].data.push(data.humidity);
-        if (this.defaultDatasets[0].data.length > 8)
+        if (this.defaultDatasets[0].data.length > 5)
           this.defaultDatasets[0].data.shift();
-        if (this.defaultDatasets[1].data.length > 8)
+        if (this.defaultDatasets[1].data.length > 5)
           this.defaultDatasets[1].data.shift();
-        if (this.labels.length > 8) this.labels.shift();
+        if (this.labels.length > 5) this.labels.shift();
       }
     });
   },
@@ -94,7 +95,7 @@ export default {
       .then(res => {
         const data = res.data.data.values;
         const displayData =
-          data.length > 8 ? data.slice(data.length - 8) : data;
+          data.length > 5 ? data.slice(data.length - 5) : data;
         const date = res.data.data.date;
         displayData.forEach(element => {
           let currentTime = new Date(element.time * 60000 + date);

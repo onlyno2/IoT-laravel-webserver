@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Frame;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -62,6 +63,11 @@ class User extends Authenticatable implements JWTSubject
   public function getJWTCustomClaims()
   {
     return [];
+  }
+
+  public function frames()
+  {
+    return $this->hasMany(Frame::class, 'user_id', 'id');
   }
 
   protected static function boot()

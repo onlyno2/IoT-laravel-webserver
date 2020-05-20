@@ -21,10 +21,16 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
 
 Route::group(['middleware' => 'api'], function () {
   Route::get('devices/{deviceId}/data', 'DeviceClientController@data')->name('device.data');
-  Route::get('clear_data', 'DataController@clearData')->name('data.clear');
+  Route::post('devices', 'DeviceClientController@store')->name('device.store');
+  Route::patch('devices/{deviceId}', 'DeviceClientController@update')->name('device.update');
+
+  Route::get('frames', 'FramesController@index')->name('frame.index');
 });
 
+Route::patch('devices/{deviceId}/status', 'DeviceClientController@trackDeviceStatus')->name('device.update');
+
+Route::get('clear_data', 'DataController@clearData')->name('data.clear');
 Route::post('store_data', 'DataController@storeData')->name('data.store');
-Route::post('devices', 'DeviceClientController@store')->name('device.store');
 Route::get('get_data', 'DataController@getData')->name('data.get');
 Route::get('devices', 'DeviceClientController@index')->name('device.index');
+Route::get('test', 'DeviceClientController@test');

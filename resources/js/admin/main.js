@@ -12,7 +12,7 @@ import VueCookies from "vue-cookies";
 var mqtt = require('mqtt');
 
 var settings = {
-  mqttServerUrl: '192.168.2.74',
+  mqttServerUrl: '192.168.5.98',
   port: 18833
 }
 

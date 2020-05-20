@@ -1,10 +1,11 @@
 import axios from "axios";
-import cookie from "vue-cookies";
-
-var token = cookie.get("Token");
 
 const state = {
-  devices: []
+  devices: [],
+  deviceDetailsDialog: {
+    deviceId: '',
+    active: false
+  }
 };
 
 const mutations = {
@@ -13,23 +14,37 @@ const mutations = {
   },
   CLEAR_DEVICE(state) {
     state.devices = [];
+  },
+  OPEN_DEVICE_DETAILS_DIALOG(state, deviceId) {
+    state.deviceDetailsDialog.active = true;
+    state.deviceDetailsDialog.deviceId = deviceId;
+  },
+  CLOSE_DEVICE_DETAILS_DIALOG(state) {
+    state.deviceDetailsDialog.active = false;
+    state.deviceDetailsDialog.deviceId = '';
   }
 };
 
 const actions = {
-  getDevices: ({ commit }) => {
+  getDevices: ({ commit }, frameId) => {
+    let data = {
+      frame_id: frameId
+    };
+
     return axios
-      .get("/api/devices", {
-        headers: {
-          Authorization: `${token}`
-        }
-      })
+      .get("/api/devices", { params: data })
       .then(response => {
         commit("SET_DEVICES", response.data.data);
       });
   },
   clearDevices: ({ commit }) => {
     commit("CLEAR_DEVICES");
+  },
+  openDeviceDetailsDialog: ({ commit }, deviceId) => {
+    commit("OPEN_DEVICE_DETAILS_DIALOG", deviceId);
+  },
+  closeDeviceDetailsDialog: ({ commit }) => {
+    commit("CLOSE_DEVICE_DETAILS_DIALOG");
   }
 };
 
