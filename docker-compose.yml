@@ -23,16 +23,6 @@ services:
     networks:
       - app-network
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    links:
-      - mariadb
-    ports:
-      - 8080:80
-    environment:
-      PMA_HOST: mariadb
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-
   mariadb:
     image: mariadb
     container_name: "agriculture_database"
@@ -62,7 +52,7 @@ services:
     image: nginx:1.17-alpine
     container_name: app-nginx
     ports:
-      - 8000:80
+      - 9000:80
     links:
       - app
     volumes:
